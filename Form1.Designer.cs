@@ -100,9 +100,9 @@
             // 
             buttonConver.Location = new Point(189, 11);
             buttonConver.Name = "buttonConver";
-            buttonConver.Size = new Size(134, 29);
+            buttonConver.Size = new Size(262, 29);
             buttonConver.TabIndex = 1;
-            buttonConver.Text = "button2";
+            buttonConver.Text = "Сформировать распределение";
             buttonConver.UseVisualStyleBackColor = true;
             buttonConver.Click += buttonConver_Click;
             // 
@@ -112,7 +112,7 @@
             buttonOpenFile.Name = "buttonOpenFile";
             buttonOpenFile.Size = new Size(147, 29);
             buttonOpenFile.TabIndex = 0;
-            buttonOpenFile.Text = "button1";
+            buttonOpenFile.Text = "Загрузить excel";
             buttonOpenFile.UseVisualStyleBackColor = true;
             buttonOpenFile.Click += buttonOpenFile_Click;
             // 
@@ -132,6 +132,7 @@
             Controls.Add(panel1);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel3.ResumeLayout(false);
             panel5.ResumeLayout(false);

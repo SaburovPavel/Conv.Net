@@ -2,6 +2,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Data.Sqlite;
 using System.Data;
+using System.Linq;
 
 namespace Conv.Net
 {
@@ -17,7 +18,8 @@ namespace Conv.Net
 
         void Refresh()
         {
-            dataGridView.DataSource = tableLoad;
+            var table = DB.ExecuteQuery("SELECT * FROM dataconvert");
+            dataGridView.DataSource = table;
         }
 
         public static DataTable ReadExcelFile(string filePath)
@@ -115,9 +117,20 @@ namespace Conv.Net
                     fin = (row1["Фин"]).ToString();
                 }
 
+                if (dataTable.Columns.Contains("Распределение"))
+                {
+                    raspred = (row1["Распределение"]).ToString();
+                }
+
                 if (dataTable.Columns.Contains("Направление"))
                 {
                     napravl = (row1["Направление"]).ToString();
+                    if (!napravl.Contains(".") && int.TryParse(napravl, out int number))
+                    {
+                        string dateValue = DateTime.FromOADate(number).ToString("dd.MM.yy");
+                        napravl = dateValue;
+                        // Вывод преобразованной даты
+                    }
                 }
 
                 if (dataTable.Columns.Contains("Группа"))
@@ -135,9 +148,9 @@ namespace Conv.Net
                     podgrupp = (row1["Пдгрп"]).ToString();
                 }
 
-                if (dataTable.Columns.Contains("Кол-во\r\n студентов"))
+                if (dataTable.Columns.Contains("студентов"))
                 {
-                    students = (row1["Кол-во\r\n студентов"]).ToString();
+                    students = (row1["студентов"]).ToString();
                 }
 
                 if (dataTable.Columns.Contains("Потоки"))
@@ -150,10 +163,15 @@ namespace Conv.Net
                     lek = (row1["Лек"]).ToString();
                 }
 
-                if (dataTable.Columns.Contains("Пр/\r\n УчР"))
+                DataColumn foundColumn = dataTable.Columns
+                    .Cast<DataColumn>()
+                    .FirstOrDefault(column => column.ColumnName.Contains("УчР"));
+
+                if (foundColumn != null)
                 {
-                    prakt = (row1["Пр/\r\n УчР"]).ToString();
+                    prakt = row1[foundColumn].ToString();
                 }
+
 
                 if (dataTable.Columns.Contains("Лаб"))
                 {
@@ -251,7 +269,12 @@ namespace Conv.Net
                     excelEpp.SaveEppFile("Raspredelenie");
                 }
             }
-            
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Refresh();
         }
     }
 }
