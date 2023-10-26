@@ -8,10 +8,7 @@ namespace Conv.Net
     public class ExcelEpp
     {
         private Epplus.ExcelPackage package;
-        public bool toEmail = false;
-        private int year = DateTime.Now.Year;
-        private int month = DateTime.Now.Month;
-        private int day = DateTime.Now.Day;
+        public bool toEmail = false;        
         public bool biathlon = false;
         public bool gender = false;
 
@@ -67,31 +64,7 @@ namespace Conv.Net
                 MessageBox.Show(ex.Message);
                 return false;
             }
-        }
-        
-
-        public DateTime TimeToDateTime(string time)
-        {
-            DateTime timeReturn;
-            if (time != "" && time != "Время старта больше введенного")
-            {
-                string[] words = time.Split(new char[] { ':' });
-                int hour = System.Convert.ToInt32(words[0]);
-                int minute = System.Convert.ToInt32(words[1]);
-                int second = System.Convert.ToInt32(words[2]);
-                int millisecond = System.Convert.ToInt32(words[3]);
-
-                timeReturn = new DateTime(year, month, day, hour, minute, second, millisecond);
-                return timeReturn;
-            }
-            else
-            {
-                timeReturn = DateTime.Now;
-                return timeReturn;
-            }
-
-
-        }
+        }              
 
         public void SaveEppFile(string fileNameOfProtocol)
         {
