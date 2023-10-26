@@ -2,6 +2,9 @@
 using Epplus = OfficeOpenXml;
 using System.Diagnostics;
 using OfficeOpenXml.Style;
+using System.Data;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml;
 
 namespace Conv.Net
 {
@@ -12,7 +15,7 @@ namespace Conv.Net
         public bool biathlon = false;
         public bool gender = false;
 
-        private System.Data.DataTable tableCopy = new System.Data.DataTable();
+        private DataTable tableCopy = new DataTable();
 
         public ExcelEpp()
         {
@@ -20,42 +23,143 @@ namespace Conv.Net
             toEmail = false;
         }
 
-        public bool ShablonSartUsers()
+        public bool ConvertToExcel(DataTable dataTable)
         {
             try
             {
                 var sheet = package.Workbook.Worksheets.Add("Лист1");
                 int row = 1, col = 1;
+                var font = "Times New Roman";
+                sheet.PrinterSettings.Orientation = eOrientation.Landscape;
+
 
                 int sizeText = 10;
                 int widthCol = 14;
 
-                
-                sheet.Cells[row, col].Value = "№"; sheet.Column(col).Width = 4; col++;
-                sheet.Cells[row, col].Value = "familia"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "name"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "datebirth"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "gender"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "startnum"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "town"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "group"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "chip_number"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "email"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "timeStartUser"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "idx"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "server"; sheet.Column(col).Width = widthCol; col++;
-                sheet.Cells[row, col].Value = "SN2"; sheet.Column(col).Width = widthCol; col++;
+                sheet.Cells[row, col].Value = "Основное распределение нагрузки преподавателей Колледжа ВлГУ на _________ семестр 20  -20   уч. года";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells[row, col, row, 11 ].Merge = true;
+                row++;
 
-                sheet.Cells[row, 1, row, col].Style.Font.Size = sizeText;
-                sheet.Cells[row, 1, row, col].Style.Font.Name = "Courier New";                
-                sheet.Cells[row, 1, row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                sheet.Cells[row, 1, row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                sheet.Cells[row, 1, row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Value = "Преподаватель\r\n(должность,\r\nФ.И.О.)";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
 
-                for (int i = 1; i < 100; i++)
-                {
-                    sheet.Cells[i, 1].Value = i; 
-                }
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Дисциплина";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Кафедра";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 8;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Тип\r\nзанятий\r\n";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 8;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Группа (поток)";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 22;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Под\r\nгруппа";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Состав";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Кол.\r\nчасов";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Группи\r\nровка";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "№\r\nауд.";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                col++;
+
+                sheet.Cells[row, col].Value = "Число\r\nауд.";
+                sheet.Cells[row, col].Style.Font.Size = sizeText;
+                sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                sheet.Cells[row, col].Style.Font.Bold = true;
+                sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Column(col).Width = 10;
+                sheet.Cells[row, col].Style.WrapText = true;
+
+                row++;
+                col++;
+
+
+
+
+
 
                 return true;
             }
@@ -75,7 +179,7 @@ namespace Conv.Net
                 saveFileDialog.Title = "Сохранить файл Excel";
                 saveFileDialog.FileName = fileNameOfProtocol;
                 
-                string defaultPath = "C:\\!ProtocolsDirectory\\";
+                string defaultPath = "C:\\!Raspredelenie\\";
 
                 if (!Directory.Exists(defaultPath))
                 {
@@ -106,7 +210,7 @@ namespace Conv.Net
 
                         if (form.DialogResult == DialogResult.Cancel)
                         {
-                            MessageBox.Show("протокол был сформировон и сохранён по пути:" + saveFileDialog.FileName, "Выполнено", MessageBoxButtons.OK);
+                            MessageBox.Show("распределение сформировоно и сохранено по пути:" + saveFileDialog.FileName, "Выполнено", MessageBoxButtons.OK);
                         }
 
                     }

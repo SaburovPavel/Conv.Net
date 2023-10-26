@@ -242,7 +242,16 @@ namespace Conv.Net
 
         private void buttonConver_Click(object sender, EventArgs e)
         {
-
+            if (dataGridView.Rows.Count > 0)
+            {
+                ExcelEpp excelEpp = new ExcelEpp();
+                var result = excelEpp.ConvertToExcel(tableLoad);
+                if (result)
+                {
+                    excelEpp.SaveEppFile("Raspredelenie");
+                }
+            }
+            
         }
     }
 }
