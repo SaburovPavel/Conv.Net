@@ -3,11 +3,8 @@ using Epplus = OfficeOpenXml;
 using System.Diagnostics;
 using OfficeOpenXml.Style;
 using System.Data;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Data.Sqlite;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using System.Text.RegularExpressions;
 
 namespace Conv.Net
@@ -27,10 +24,35 @@ namespace Conv.Net
             toEmail = false;
         }
         
+        private string CheckTitleGroup(string group, string potok)
+        {
+            var groupp = group;
+            if (potok != "")
+            {
+                groupp = string.Join("", Regex.Matches(potok, @"\(([^()]+)\)").Cast<Match>().Select(m => m.Groups[1].Value));
+            }
+            else
+            {
+                groupp = Regex.Replace(groupp, @"\([^()]*\)", "");
+            }
+            return groupp;
+        }
+
         public bool ConvertToExcel(DataTable dataTable)
         {
             try
             {
+                var semestr = "Осенний";
+
+                ButtonTwoForm buttonTwoForm = new ButtonTwoForm("Осенний", "Весенний");
+                if (buttonTwoForm.ShowDialog() == DialogResult.OK)
+                {
+                    if (buttonTwoForm.right)
+                    {
+                        semestr = "Весенний";
+                    }
+                }
+
                 var sheet = package.Workbook.Worksheets.Add("Лист1");
                 int row = 1, col = 1;
                 var font = "Times New Roman";
@@ -42,7 +64,7 @@ namespace Conv.Net
                 int sizeText = 10;
                 int widthCol = 14;
 
-                sheet.Cells[row, col].Value = "Основное распределение нагрузки преподавателей Колледжа ВлГУ на _________ семестр 20  -20   уч. года";
+                sheet.Cells[row, col].Value = $"Основное распределение нагрузки преподавателей Колледжа ВлГУ на {semestr} семестр 20  -20   уч. года";
                 sheet.Cells[row, col].Style.Font.Size = sizeText;
                 sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
                 sheet.Cells[row, col].Style.Font.Bold = true;
@@ -55,7 +77,7 @@ namespace Conv.Net
                 sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
                 sheet.Cells[row, col].Style.Font.Bold = true;
                 sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                sheet.Column(col).Width = 13;
+                sheet.Column(col).Width = 15;
                 sheet.Cells[row, col].Style.WrapText = true;
                 sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
@@ -177,21 +199,14 @@ namespace Conv.Net
 
                 row++;
 
-                var semestr = "Осенний";
-
-                ButtonTwoForm buttonTwoForm = new ButtonTwoForm("Осенний", "Весенний");
-                if(buttonTwoForm.ShowDialog() == DialogResult.OK)
-                {
-                    if (buttonTwoForm.right)
-                    {
-                        semestr = "Весенний";
-                    }
-                }
+                
                 var tableSpec = DB.ExecuteQuery
                     (
                         "SELECT DISTINCT napravl from dataconvert WHERE semestr=@semestr",
                         new SqliteParameter("@semestr", semestr)
                     );
+
+                
 
                 if(tableSpec != null && tableSpec.Rows.Count > 0)
                 {
@@ -264,10 +279,7 @@ namespace Conv.Net
                                                     var groupp = tableDiscipllek.Rows[0]["groupp"].ToString();
                                                     var potok = tableDiscipllek.Rows[0]["potok"].ToString();
 
-                                                    if (potok != "")
-                                                    {
-                                                        groupp = potok;
-                                                    }
+                                                    groupp = CheckTitleGroup(groupp, potok);
 
                                                     sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["raspred"].ToString(); ;
                                                     sheet.Cells[row, col].Style.Font.Size = sizeText;
@@ -337,12 +349,9 @@ namespace Conv.Net
                                                     sheet.Cells[row, 1, row, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
                                                     row++;
-
-
                                                 }
                                             }
                                         }
-
                                         
 
                                         var tableDisciplpr = DB.ExecuteQuery
@@ -371,6 +380,8 @@ namespace Conv.Net
                                                     sum += value;
                                                 }
                                             }
+
+                                            groupp = CheckTitleGroup(groupp, "");
 
                                             sheet.Cells[row, col].Value = tableDisciplpr.Rows[0]["raspred"].ToString(); ;
                                             sheet.Cells[row, col].Style.Font.Size = sizeText;
@@ -478,6 +489,7 @@ namespace Conv.Net
                                                     sum += value;
                                                 }
                                             }
+                                            groupp = groupp = CheckTitleGroup(groupp, "");
 
                                             sheet.Cells[row, col].Value = tableDiscipllab.Rows[0]["raspred"].ToString(); ;
                                             sheet.Cells[row, col].Style.Font.Size = sizeText;

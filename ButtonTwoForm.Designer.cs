@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new System.Windows.Forms.Panel();
-            panel3 = new System.Windows.Forms.Panel();
-            buttonCancel = new System.Windows.Forms.Button();
-            panel2 = new System.Windows.Forms.Panel();
-            panel5 = new System.Windows.Forms.Panel();
-            buttonRight = new System.Windows.Forms.Button();
-            panel4 = new System.Windows.Forms.Panel();
-            buttonLeft = new System.Windows.Forms.Button();
+            panel1 = new Panel();
+            panel3 = new Panel();
+            buttonCancel = new Button();
+            panel2 = new Panel();
+            panel5 = new Panel();
+            buttonRight = new Button();
+            panel4 = new Panel();
+            buttonLeft = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -47,32 +47,29 @@
             // 
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
-            panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            panel1.Location = new System.Drawing.Point(0, 0);
-            panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(616, 189);
+            panel1.Size = new Size(704, 252);
             panel1.TabIndex = 0;
             // 
             // panel3
             // 
             panel3.Controls.Add(buttonCancel);
-            panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            panel3.Location = new System.Drawing.Point(430, 0);
-            panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(491, 0);
             panel3.Name = "panel3";
-            panel3.Size = new System.Drawing.Size(186, 189);
+            panel3.Size = new Size(213, 252);
             panel3.TabIndex = 1;
             // 
             // buttonCancel
             // 
-            buttonCancel.BackColor = System.Drawing.Color.Orange;
-            buttonCancel.Dock = System.Windows.Forms.DockStyle.Fill;
-            buttonCancel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            buttonCancel.Location = new System.Drawing.Point(0, 0);
-            buttonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            buttonCancel.BackColor = Color.Orange;
+            buttonCancel.Dock = DockStyle.Fill;
+            buttonCancel.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonCancel.Location = new Point(0, 0);
             buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new System.Drawing.Size(186, 189);
+            buttonCancel.Size = new Size(213, 252);
             buttonCancel.TabIndex = 0;
             buttonCancel.Text = "Отмена";
             buttonCancel.UseVisualStyleBackColor = false;
@@ -82,32 +79,29 @@
             // 
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(panel4);
-            panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            panel2.Location = new System.Drawing.Point(0, 0);
-            panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            panel2.Dock = DockStyle.Left;
+            panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(430, 189);
+            panel2.Size = new Size(491, 252);
             panel2.TabIndex = 0;
             // 
             // panel5
             // 
             panel5.Controls.Add(buttonRight);
-            panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            panel5.Location = new System.Drawing.Point(216, 0);
-            panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            panel5.Dock = DockStyle.Fill;
+            panel5.Location = new Point(247, 0);
             panel5.Name = "panel5";
-            panel5.Size = new System.Drawing.Size(214, 189);
+            panel5.Size = new Size(244, 252);
             panel5.TabIndex = 1;
             // 
             // buttonRight
             // 
-            buttonRight.BackColor = System.Drawing.Color.LightBlue;
-            buttonRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            buttonRight.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            buttonRight.Location = new System.Drawing.Point(0, 0);
-            buttonRight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            buttonRight.BackColor = Color.LightBlue;
+            buttonRight.Dock = DockStyle.Fill;
+            buttonRight.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonRight.Location = new Point(0, 0);
             buttonRight.Name = "buttonRight";
-            buttonRight.Size = new System.Drawing.Size(214, 189);
+            buttonRight.Size = new Size(244, 252);
             buttonRight.TabIndex = 0;
             buttonRight.Text = "button2";
             buttonRight.UseVisualStyleBackColor = false;
@@ -116,22 +110,20 @@
             // panel4
             // 
             panel4.Controls.Add(buttonLeft);
-            panel4.Dock = System.Windows.Forms.DockStyle.Left;
-            panel4.Location = new System.Drawing.Point(0, 0);
-            panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            panel4.Dock = DockStyle.Left;
+            panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
-            panel4.Size = new System.Drawing.Size(216, 189);
+            panel4.Size = new Size(247, 252);
             panel4.TabIndex = 0;
             // 
             // buttonLeft
             // 
-            buttonLeft.BackColor = System.Drawing.Color.LightGreen;
-            buttonLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            buttonLeft.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            buttonLeft.Location = new System.Drawing.Point(0, 0);
-            buttonLeft.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            buttonLeft.BackColor = Color.LightGreen;
+            buttonLeft.Dock = DockStyle.Fill;
+            buttonLeft.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonLeft.Location = new Point(0, 0);
             buttonLeft.Name = "buttonLeft";
-            buttonLeft.Size = new System.Drawing.Size(216, 189);
+            buttonLeft.Size = new Size(247, 252);
             buttonLeft.TabIndex = 0;
             buttonLeft.Text = "button1";
             buttonLeft.UseVisualStyleBackColor = false;
@@ -139,15 +131,15 @@
             // 
             // ButtonTwoForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new System.Drawing.Size(616, 189);
+            ClientSize = new Size(704, 252);
             Controls.Add(panel1);
-            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "ButtonTwoForm";
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "ButtonTwoForm";
+            Load += ButtonTwoForm_Load;
             panel1.ResumeLayout(false);
             panel3.ResumeLayout(false);
             panel2.ResumeLayout(false);
@@ -158,13 +150,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Button buttonRight;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button buttonLeft;
+        private Panel panel1;
+        private Panel panel3;
+        private Button buttonCancel;
+        private Panel panel2;
+        private Panel panel5;
+        private Button buttonRight;
+        private Panel panel4;
+        private Button buttonLeft;
     }
 }

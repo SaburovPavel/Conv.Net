@@ -33,6 +33,7 @@
             panel5 = new Panel();
             dataGridView = new DataGridView();
             panel4 = new Panel();
+            buttonDelALL = new Button();
             buttonConver = new Button();
             buttonOpenFile = new Button();
             panel2 = new Panel();
@@ -88,6 +89,7 @@
             // 
             // panel4
             // 
+            panel4.Controls.Add(buttonDelALL);
             panel4.Controls.Add(buttonConver);
             panel4.Controls.Add(buttonOpenFile);
             panel4.Dock = DockStyle.Bottom;
@@ -96,9 +98,19 @@
             panel4.Size = new Size(921, 50);
             panel4.TabIndex = 0;
             // 
+            // buttonDelALL
+            // 
+            buttonDelALL.Location = new Point(457, 11);
+            buttonDelALL.Name = "buttonDelALL";
+            buttonDelALL.Size = new Size(212, 29);
+            buttonDelALL.TabIndex = 2;
+            buttonDelALL.Text = "Удалить все строки";
+            buttonDelALL.UseVisualStyleBackColor = true;
+            buttonDelALL.Click += buttonDelALL_Click;
+            // 
             // buttonConver
             // 
-            buttonConver.Location = new Point(189, 11);
+            buttonConver.Location = new Point(171, 11);
             buttonConver.Name = "buttonConver";
             buttonConver.Size = new Size(262, 29);
             buttonConver.TabIndex = 1;
@@ -151,5 +163,6 @@
         private Button buttonConver;
         private Button buttonOpenFile;
         private Panel panel2;
+        public Button buttonDelALL;
     }
 }

@@ -22,7 +22,7 @@ namespace Conv.Net
             dataGridView.DataSource = table;
         }
 
-        public static DataTable ReadExcelFile(string filePath)
+        public DataTable ReadExcelFile(string filePath)
         {
             DataTable dataTable = new DataTable();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(filePath, false))
@@ -79,10 +79,7 @@ namespace Conv.Net
                 }
             }
 
-            DB.ExecuteQuery
-                (
-                    "DELETE FROM dataconvert"
-                );
+            DellAll();
 
             foreach (DataRow row1 in dataTable.Rows)
             {
@@ -161,7 +158,7 @@ namespace Conv.Net
                 if (foundColumnStu != null)
                 {
                     students = row1[foundColumnStu].ToString();
-                }    
+                }
 
                 if (dataTable.Columns.Contains("Потоки"))
                 {
@@ -286,6 +283,23 @@ namespace Conv.Net
         private void Form1_Load(object sender, EventArgs e)
         {
             Refresh();
+        }
+
+        private void DellAll()
+        {
+            DB.ExecuteQuery
+               (
+                   "DELETE FROM dataconvert"
+               );
+        }
+
+        public void buttonDelALL_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите удалить все строки?", "Удаление записей", MessageBoxButtons.YesNo,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+                DellAll();
+                Refresh();
+            }            
         }
     }
 }

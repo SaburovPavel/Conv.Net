@@ -18,8 +18,8 @@ namespace Conv.Net
         {
             CreateDatabase();
 
-            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
-            SQLitePCL.Batteries.Init();
+            raw.SetProvider(new SQLite3Provider_e_sqlite3());
+            Batteries.Init();
 
             var result = new DataTable();
             using (var command = new SqliteCommand(sql, connection))

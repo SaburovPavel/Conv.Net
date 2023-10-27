@@ -30,5 +30,10 @@ namespace Conv.Net
             right = true;
             DialogResult = DialogResult.OK;
         }
+
+        private void ButtonTwoForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
