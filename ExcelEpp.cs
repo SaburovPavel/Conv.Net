@@ -232,95 +232,123 @@ namespace Conv.Net
 
                                     if (disciplina != "")
                                     {
-                                        var tableDiscipllek = DB.ExecuteQuery
+                                        var tableDiscipllekDistinkt = DB.ExecuteQuery
                                             (
-                                                "SELECT raspred, disciplina, groupp,podgrupp,sum(students),potok, SUM(lek) FROM dataconvert " +
+                                                "SELECT DISTINCT raspred FROM dataconvert " +
                                                 "WHERE disciplina=@disciplina AND napravl=@napravl AND semestr=@semestr",
                                                 new SqliteParameter("@semestr", semestr),
                                                 new SqliteParameter("@napravl", napravl),
                                                 new SqliteParameter("@disciplina", disciplina)
                                             );
 
-                                        if (tableDiscipllek.Rows[0]["SUM(lek)"].ToString() != "0")
+                                        if (tableDiscipllekDistinkt.Rows.Count > 0)
                                         {
-
-                                            col = 1;
-                                            var groupp = tableDiscipllek.Rows[0]["groupp"].ToString();
-                                            var potok = tableDiscipllek.Rows[0]["potok"].ToString();
-
-                                            if (potok != "")
+                                            foreach (DataRow rowRaspr in tableDiscipllekDistinkt.Rows)
                                             {
-                                                groupp = potok;
+                                                var raspred = rowRaspr["raspred"].ToString();
+
+                                                var tableDiscipllek = DB.ExecuteQuery
+                                                    (
+                                                        "SELECT raspred, disciplina,kaf, groupp,podgrupp,sum(students),potok, SUM(lek) FROM dataconvert " +
+                                                        "WHERE disciplina=@disciplina AND napravl=@napravl AND semestr=@semestr AND raspred=@raspred",
+                                                        new SqliteParameter("@semestr", semestr),
+                                                        new SqliteParameter("@napravl", napravl),
+                                                        new SqliteParameter("@disciplina", disciplina),
+                                                        new SqliteParameter("@raspred", raspred)
+                                                    );
+
+                                                if (tableDiscipllek.Rows[0]["SUM(lek)"].ToString() != "0")
+                                                {
+
+                                                    col = 1;
+                                                    var groupp = tableDiscipllek.Rows[0]["groupp"].ToString();
+                                                    var potok = tableDiscipllek.Rows[0]["potok"].ToString();
+
+                                                    if (potok != "")
+                                                    {
+                                                        groupp = potok;
+                                                    }
+
+                                                    sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["raspred"].ToString(); ;
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    col++;
+
+                                                    sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["disciplina"].ToString();
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    col++;
+
+                                                    sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["kaf"].ToString();
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    col++;
+
+                                                    sheet.Cells[row, col].Value = "лк";
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    col++;
+
+                                                    sheet.Cells[row, col].Value = groupp;
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    col++;
+                                                    col++;
+
+                                                    sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["sum(students)"].ToString();
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    col++;
+
+                                                    sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["SUM(lek)"].ToString();
+                                                    sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                                    sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                                    sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    sheet.Cells[row, col].Style.WrapText = true;
+                                                    sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                                                    sheet.Cells[row, 1, row, 11].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                                    sheet.Cells[row, 1, row, 11].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                                    sheet.Cells[row, 1, row, 11].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                                                    sheet.Cells[row, 1, row, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                                                    row++;
+
+
+                                                }
                                             }
-
-                                            sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["raspred"].ToString(); ;
-                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
-                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";                                            
-                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                                            
-                                            sheet.Cells[row, col].Style.WrapText = true;
-                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                                            col++;
-
-                                            sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["disciplina"].ToString();
-                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
-                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";                                           
-                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                                        
-                                            sheet.Cells[row, col].Style.WrapText = true;
-                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                                            col++;
-                                            col++;
-
-                                            sheet.Cells[row, col].Value = "лк";
-                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
-                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
-                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                            sheet.Cells[row, col].Style.WrapText = true;
-                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                                            col++;
-
-                                            sheet.Cells[row, col].Value = groupp;
-                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
-                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
-                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                            sheet.Cells[row, col].Style.WrapText = true;
-                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                                            col++;     
-                                            col++;
-
-                                            sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["sum(students)"].ToString();
-                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
-                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
-                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                            sheet.Cells[row, col].Style.WrapText = true;
-                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                                            col++;
-
-                                            sheet.Cells[row, col].Value = tableDiscipllek.Rows[0]["SUM(lek)"].ToString();
-                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
-                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
-                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                            sheet.Cells[row, col].Style.WrapText = true;
-                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                                            sheet.Cells[row, 1, row, 11].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                                            sheet.Cells[row, 1, row, 11].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                                            sheet.Cells[row, 1, row, 11].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                                            sheet.Cells[row, 1, row, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-
-                                            row++;
-
-
                                         }
+
+                                        
 
                                         var tableDisciplpr = DB.ExecuteQuery
                                             (
-                                                "SELECT raspred, disciplina, groupp,podgrupp,sum(students),potok, SUM(prakt) FROM dataconvert " +
-                                                "WHERE disciplina=@disciplina AND napravl=@napravl AND semestr=@semestr",
+                                                "SELECT raspred, disciplina,kaf, groupp,podgrupp,sum(students),potok, SUM(prakt) FROM dataconvert " +
+                                                "WHERE disciplina=@disciplina AND napravl=@napravl AND semestr=@semestr GROUP BY raspred",
                                                 new SqliteParameter("@semestr", semestr),
                                                 new SqliteParameter("@napravl", napravl),
                                                 new SqliteParameter("@disciplina", disciplina)
@@ -330,7 +358,7 @@ namespace Conv.Net
                                         {
 
                                             col = 1;
-                                            var groupp = tableDiscipllek.Rows[0]["groupp"].ToString();
+                                            var groupp = tableDisciplpr.Rows[0]["groupp"].ToString();
                                             string pattern = @"\((\d+)\)";
 
                                             int sum = 0;
@@ -361,6 +389,14 @@ namespace Conv.Net
                                             sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
                                             col++;
+
+                                            sheet.Cells[row, col].Value = tableDisciplpr.Rows[0]["kaf"].ToString();
+                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                            sheet.Cells[row, col].Style.WrapText = true;
+                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                                             col++;
 
                                             sheet.Cells[row, col].Value = "пр";
@@ -418,8 +454,8 @@ namespace Conv.Net
 
                                         var tableDiscipllab = DB.ExecuteQuery
                                             (
-                                                "SELECT raspred, disciplina, groupp,podgrupp,sum(students),potok, SUM(lab) FROM dataconvert " +
-                                                "WHERE disciplina=@disciplina AND napravl=@napravl AND semestr=@semestr",
+                                                "SELECT raspred, disciplina,kaf, groupp,podgrupp,sum(students),potok, SUM(lab) FROM dataconvert " +
+                                                "WHERE disciplina=@disciplina AND napravl=@napravl AND semestr=@semestr GROUP BY raspred",
                                                 new SqliteParameter("@semestr", semestr),
                                                 new SqliteParameter("@napravl", napravl),
                                                 new SqliteParameter("@disciplina", disciplina)
@@ -460,6 +496,14 @@ namespace Conv.Net
                                             sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
                                             col++;
+
+                                            sheet.Cells[row, col].Value = tableDiscipllab.Rows[0]["kaf"].ToString();
+                                            sheet.Cells[row, col].Style.Font.Size = sizeText;
+                                            sheet.Cells[row, col].Style.Font.Name = "Times New Roman";
+                                            sheet.Cells[row, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                            sheet.Cells[row, col].Style.WrapText = true;
+                                            sheet.Cells[row, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                                             col++;
 
                                             sheet.Cells[row, col].Value = "лб";

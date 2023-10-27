@@ -101,10 +101,16 @@ namespace Conv.Net
                 var lab = "";
                 var kursovoi = "";
                 var ucheb_praktika = "";
+                var kaf = "";
+
+                if (dataTable.Columns.Contains("Семестр0"))
+                {
+                    semestr = (row1["Семестр0"]).ToString();
+                }
 
                 if (dataTable.Columns.Contains("Семестр"))
                 {
-                    semestr = (row1["Семестр"]).ToString();
+                    kaf = (row1["Семестр"]).ToString();
                 }
 
                 if (dataTable.Columns.Contains("Дисциплина"))
@@ -148,10 +154,14 @@ namespace Conv.Net
                     podgrupp = (row1["Пдгрп"]).ToString();
                 }
 
-                if (dataTable.Columns.Contains("студентов"))
+                DataColumn foundColumnStu = dataTable.Columns
+                    .Cast<DataColumn>()
+                    .FirstOrDefault(column => column.ColumnName.Contains("студентов"));
+
+                if (foundColumnStu != null)
                 {
-                    students = (row1["студентов"]).ToString();
-                }
+                    students = row1[foundColumnStu].ToString();
+                }    
 
                 if (dataTable.Columns.Contains("Потоки"))
                 {
@@ -193,9 +203,9 @@ namespace Conv.Net
                     DB.ExecuteQuery
                     (
                         "INSERT INTO dataconvert (semestr, disciplina, fin, raspred, napravl, groupp, " +
-                        "time_all, podgrupp, students, potok, lek, prakt, lab, kursovoi, ucheb_praktika) " +
+                        "time_all, podgrupp, students, potok, lek, prakt, lab, kursovoi, ucheb_praktika, kaf) " +
                         "VALUES (@semestr, @disciplina, @fin, @raspred, @napravl, @groupp, " +
-                        "@time_all, @podgrupp, @students, @potok, @lek, @prakt, @lab, @kursovoi, @ucheb_praktika)",
+                        "@time_all, @podgrupp, @students, @potok, @lek, @prakt, @lab, @kursovoi, @ucheb_praktika,@kaf)",
                         new SqliteParameter("@semestr", semestr),
                         new SqliteParameter("@disciplina", disciplina),
                         new SqliteParameter("@fin", fin),
@@ -210,7 +220,8 @@ namespace Conv.Net
                         new SqliteParameter("@prakt", prakt),
                         new SqliteParameter("@lab", lab),
                         new SqliteParameter("@kursovoi", kursovoi),
-                        new SqliteParameter("@ucheb_praktika", ucheb_praktika)
+                        new SqliteParameter("@ucheb_praktika", ucheb_praktika),
+                        new SqliteParameter("@kaf", kaf)
                     );
                 }
                 catch (Exception ex)

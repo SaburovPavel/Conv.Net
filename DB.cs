@@ -58,6 +58,7 @@ namespace Conv.Net
                                     fin varchar(128),
                                     raspred varchar(128),
                                     napravl varchar(128),
+                                    kaf	varchar(128),   
                                     groupp varchar(128),
                                     time_all varchar(128),
                                     podgrupp varchar(128),
